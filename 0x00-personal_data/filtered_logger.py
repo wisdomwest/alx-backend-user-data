@@ -42,6 +42,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         user=environ.get('PERSONAL_DATA_DB_USERNAME', 'root'),
         password=environ.get('PERSONAL_DATA_DB_PASSWORD', '')
     )
+
     return connect
 
 
@@ -63,3 +64,24 @@ class RedactingFormatter(logging.Formatter):
         record.msg = filter_datum(self.fields, self.REDACTION,
                                   record.getMessage(), self.SEPARATOR)
         return super(RedactingFormatter, self).format(record)
+
+
+def main() -> None:
+    '''main function'''
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users")
+    logger = get_logger()
+
+    for row in cursor:
+        data = ''
+        for i in range(len(row)):
+            data += f"{cursor.column_names[i]}={row[i]}; "
+        logger.info(data)
+
+    cursor.close()
+    db.close()
+
+
+if __name__ == '__main__':
+    main()
