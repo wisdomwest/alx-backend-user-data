@@ -41,7 +41,7 @@ def unauthorized(error) -> str:
     return jsonify({"error": "Unauthorized"}), 401
 
 
-@app.before_requesti
+@app.before_request
 def before_request() -> str:
     """ Before request handler
     """
