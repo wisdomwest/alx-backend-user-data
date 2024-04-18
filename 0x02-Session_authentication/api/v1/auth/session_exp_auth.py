@@ -9,7 +9,7 @@ from models.user import User
 
 class SessionExpAuth(SessionAuth):
     '''SessionExpAuth class'''
-    
+
     def __init__(self):
         '''constructor'''
         SESSION_DURATION = getenv('SESSION_DURATION')
