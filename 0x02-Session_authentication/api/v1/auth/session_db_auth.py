@@ -33,10 +33,7 @@ class SessionDBAuth(SessionExpAuth):
         user_id = super().user_id_for_session_id(session_id)
 
         if user_id is None:
-            try:
-                user_session = UserSession.search({'session_id': session_id})
-            except KeyError:
-                return None
+            user_session = UserSession.search({'session_id': session_id})
 
             if not user_session:
                 return None
